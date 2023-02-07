@@ -4,31 +4,8 @@ body {
     overflow: hidden;
 }
 
-#check_this_out {
-  position: relative;
-  width: auto;
-  height: 100vmin;
-  bottom: 0;
-  max-width: 30vmax;
-  max-height: 50vmax;
-}
-
-#codeText {
-  position: relative;
-  z-index: 0;
-  height: 100vmin;
-  width: auto;
-  max-width: 50vmax;
-  max-height: 50vmax;
-}
-
-#div-Jan5 {
-  width: 100%;
-  height: 100vmax;
-}
-
-#div-Jan10 {
-  color: blue;
-  width: 100%;
-  height: 100vmax;
+#fps {
+  z-index: 1;
+  position: fixed;
+  color: white;
 }
