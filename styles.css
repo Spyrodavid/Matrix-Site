@@ -1,11 +1,33 @@
 body {
     margin: 0;
-    background-color: black;
+    background-color: grey;
     overflow: hidden;
 }
 
-#fps {
-  z-index: 1;
-  position: fixed;
-  color: white;
+.grid {
+  display: grid;
+}
+
+#input_section {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  object-fit: contain;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+#output_section {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  object-fit: contain;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.input_output_label {
+  text-align: center;
 }

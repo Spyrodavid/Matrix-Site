@@ -6,18 +6,37 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="styles.css">
-    <script src="noise.js" defer></script>
-    <script src="vector.js" defer></script>
     <script src="math.js" defer></script>
-    <script src="boid.js" defer></script>
-    <title>Bords!!</title>
+    <script src="main.js" defer></script>
+    <title>Matrix Transforms</title>
     <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 </head>
 
 <body>
-    <div id="fps"></div>
+    <div id="controlls">
+        <button onclick="clearPoints()">Clear Points</button>
+        <div id="presets">
+            Presets:
+            <button onclick="house()">House</button>
+            <button onclick="smiley()">Smiley</button>
+        </div>
+    </div>
+    <div class="grid">
+        <div id="input_section">
+            <div class="input_output_label">Input</div>
+            <canvas id="input"></canvas>
+        </div>
 
-    <canvas id="bordCanvas"></canvas>
+        <div id="output_section">
+            <div class="input_output_label">Output</div>
+            <canvas id="output"></canvas>
+        </div>
+    </div>
+
+    <div id="validity">All Matrices Valid!</div>
+    <button onclick="newMatrix()">New Matrix</button>
+    
+    <div id="matrix_section" class="grid"></div>
 </body>
 
 </html>
