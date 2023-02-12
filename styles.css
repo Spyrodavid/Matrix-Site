@@ -48,7 +48,7 @@ body {
 
 #matrix {
   grid-template-columns: 50px 50px;
-  grid-template-rows: 40px 40px;
+  grid-template-rows: 50px 50px;
 
   border:2px solid black;
   margin-top: 3px;
@@ -59,10 +59,11 @@ body {
 #matrix::before,#matrix::after {
   position: absolute;
   width: 80px;
-  height: 84px;
+  height: 104px;
   content: "";
   top: -2px;
   right: 10px;
+  pointer-events: none
 
   
 }
