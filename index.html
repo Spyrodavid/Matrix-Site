@@ -17,9 +17,18 @@
     <main>
     <div class="container">
         <h1>Matrix Multiplication Visualization</h1>
-        <p>Click on the input graph to place a point</p>
+        <h7>Click on the input graph to place a point</h7>
         <div id="controlls">
-            <button onclick="clearPoints()">Clear Points</button>
+            <div>
+                <button onclick="clearPoints()">Clear Points</button>
+                <p></p>
+            </div>
+            <div>
+                <h7 style="display: block;">Presets:</h7>
+                <button onclick="addSmiley()" style="display: block;">Smiley</button>
+                <p></p>
+                <button onclick="addHouse()" style="display: block;">House</button>
+            </div>
         </div>
         <div class="grid">
             <div id="input_section">
@@ -34,6 +43,7 @@
         </div>
         <div>
             <div id="validity">All Matrices Valid!</div>
+            <div>Hint: th = time elapsed, so try cos(th)</div>
             <button onclick="newMatrix()">New Matrix</button>
         </div>
         
