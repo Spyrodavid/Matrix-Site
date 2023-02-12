@@ -1,8 +1,8 @@
 // get context for each input
-const input_canvas = document.getElementById("input");
+const input_canvas = document.getElementById("input_canvas");
 const input_ctx = input_canvas.getContext("2d");
 
-const output_canvas = document.getElementById("output");
+const output_canvas = document.getElementById("output_canvas");
 const output_ctx = output_canvas.getContext("2d");
 
 const matrix_section = document.getElementById("matrix_section");
@@ -57,6 +57,8 @@ var t2 = Date.now()
 
 function MainLoop() {
 
+    
+
     input_ctx.fillStyle = "white";
     input_ctx.fillRect(-in_width / 2, -in_height / 2, in_width, in_height)
 
@@ -87,8 +89,16 @@ function MainLoop() {
 
     matrix_nodes = matrix_section.children
     for (let i = 0; i < matrix_nodes.length; i++) {
-        const matrix_node = matrix_nodes[i];
+        const matrix_settings_node = matrix_nodes[i];
+        var matrix_node = matrix_settings_node.children[0]
+
+        if (matrix_node.tagName != "DIV") {
+            break
+        }
+
         var matrix_inputs = matrix_node.children
+
+        
 
         is_numbers_flag = true
         for (const matrix_input of matrix_inputs) { 
@@ -104,7 +114,7 @@ function MainLoop() {
             [matrix_inputs[2].value, matrix_inputs[3].value]])
             matrices_to_multiply.push(new_matrix)
             validity.innerHTML = "All Matrices Valid!"
-            validity.style.color = "#AAFF00"
+            validity.style.color = "black"
         } else {
             validity.innerHTML = "Invalid Value in a Matrix!"
             validity.style.color = "red"
@@ -154,16 +164,21 @@ requestAnimationFrame(MainLoop)
 
 function newMatrix() {
     matrix = document.createElement("div")
+    var matrix_and_settings = document.createElement("div")
+    matrix_and_settings.id = "matrix_and_settings"
+    matrix_and_settings.appendChild(matrix)
     matrix.id = "matrix"
     matrix.classList.add("grid")
 
-    matrix_section.appendChild(matrix)
+    matrix_section.appendChild(matrix_and_settings)
 
     matrix_columns = 2
     matrix_rows = 2
     for (let i = 1; i <= matrix_columns; i++) {
         for (let j = 1; j <= matrix_rows; j++) {
             matrix_input = document.createElement("input")
+
+            
 
             if (i == j) {
                 matrix_input.defaultValue = "1"
@@ -178,6 +193,14 @@ function newMatrix() {
             matrix.appendChild(matrix_input)
         }
     }
+
+    matrix_delete_button = document.createElement("button")
+    matrix_delete_button.innerHTML = "❌"
+    matrix_delete_button.id = "matrix_delete_button"
+    matrix_delete_button.addEventListener("click", () => {matrix_and_settings.remove()})
+    matrix_and_settings.appendChild(matrix_delete_button)
+
+            
 }
 
 function clearPoints() {

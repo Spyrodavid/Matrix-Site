@@ -1,11 +1,25 @@
 body {
-    margin: 0;
-    background-color: grey;
-    overflow: hidden;
+  margin: 0;
+  background-color: grey;
+  gap: 20px;
+  text-align: center;
+  background-image:url("https://ahoylemon.github.io/BG2COOL//patterns/random/bokeh.jpg");
+  background-position: center;
+  background-size: 30%;
+}
+
+.container {
+  background-color: white;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  border-radius: 3px;
+  border:2px solid lightgrey;
+  padding-bottom: 10px;
 }
 
 .grid {
   display: grid;
+  justify-content: space-around;
 }
 
 #input_section {
@@ -30,4 +44,61 @@ body {
 
 .input_output_label {
   text-align: center;
+}
+
+#matrix {
+  grid-template-columns: 50px 50px;
+  grid-template-rows: 40px 40px;
+
+  border:2px solid black;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  position: relative;
+}
+
+#matrix::before,#matrix::after {
+  position: absolute;
+  width: 80px;
+  height: 84px;
+  content: "";
+  top: -2px;
+  right: 10px;
+
+  
+}
+#matrix::before {
+  border-top: 2px solid white;
+}
+
+#matrix::after {
+  border-bottom: 2px solid white;
+}
+
+#matrix_section {
+  display: inline-block;
+}
+
+input:focus {
+  background-color: lightblue;
+  border: none;
+}
+
+input {
+  text-align: center;
+  border: none;
+  outline: 0px;
+}
+
+button {
+  border-radius: 2px !important;
+}
+
+
+#input_canvas,#output_canvas {
+  border-radius: 200;
+  border:2px inset lightgrey;
+}
+
+#matrix_and_settings {
+  display: inline;
 }

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="math.js" defer></script>
     <script src="main.js" defer></script>
     <title>Matrix Transforms</title>
@@ -13,30 +14,33 @@
 </head>
 
 <body>
-    <div id="controlls">
-        <button onclick="clearPoints()">Clear Points</button>
-        <div id="presets">
-            Presets:
-            <button onclick="house()">House</button>
-            <button onclick="smiley()">Smiley</button>
+    <main>
+    <div class="container">
+        <h1>Matrix Multiplication Visualization</h1>
+        <p>Click on the input graph to place a point</p>
+        <div id="controlls">
+            <button onclick="clearPoints()">Clear Points</button>
         </div>
-    </div>
-    <div class="grid">
-        <div id="input_section">
-            <div class="input_output_label">Input</div>
-            <canvas id="input"></canvas>
-        </div>
+        <div class="grid">
+            <div id="input_section">
+                <div class="input_output_label">Input</div>
+                <canvas id="input_canvas"></canvas>
+            </div>
 
-        <div id="output_section">
-            <div class="input_output_label">Output</div>
-            <canvas id="output"></canvas>
+            <div id="output_section">
+                <div class="input_output_label">Output</div>
+                <canvas id="output_canvas"></canvas>
+            </div>
         </div>
+        <div>
+            <div id="validity">All Matrices Valid!</div>
+            <button onclick="newMatrix()">New Matrix</button>
+        </div>
+        
+        <div id="matrix_section" class="grid"></div>
+        
     </div>
-
-    <div id="validity">All Matrices Valid!</div>
-    <button onclick="newMatrix()">New Matrix</button>
-    
-    <div id="matrix_section" class="grid"></div>
+</main>
 </body>
 
 </html>
