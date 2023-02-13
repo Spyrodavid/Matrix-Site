@@ -25,9 +25,8 @@
             </div>
             <div>
                 <h7 style="display: block;">Presets:</h7>
-                <button onclick="addSmiley()" style="display: block;">Smiley</button>
-                <p></p>
-                <button onclick="addHouse()" style="display: block;">House</button>
+                <button onclick="addSmiley()" >Smiley</button> 
+                <button onclick="addHouse()" >House</button>
             </div>
         </div>
         <div class="grid">
@@ -44,7 +43,9 @@
         <div>
             <div id="validity">All Matrices Valid!</div>
             <div>Hint: th = time elapsed, so try cos(th)</div>
-            <button onclick="newMatrix()">New Matrix</button>
+            <button onclick="newMatrix([])">New Identity Matrix</button>
+            <button onclick="newMatrix(['cos(th)','-sin(th)','sin(th)','cos(th)'])">
+                New Rotation Matrix</button>
         </div>
         
         <div id="matrix_section" class="grid"></div>

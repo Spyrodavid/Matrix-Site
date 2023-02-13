@@ -108,7 +108,7 @@ function MainLoop() {
         // replace time elapsed
         theta = (Date.now() - program_start) / 1000
         matrix_values = Array.from(matrix_inputs).map((el) => 
-                            {return el.value.replace("th", String(theta))})
+                            {return el.value.replaceAll("th", String(theta))})
 
         // make sure expression is fully formed
         try {
@@ -190,7 +190,7 @@ function MainLoop() {
 requestAnimationFrame(MainLoop)
 
 
-function newMatrix() {
+function newMatrix(default_inputs) {
     matrix = document.createElement("div")
     var matrix_and_settings = document.createElement("div")
     matrix_and_settings.id = "matrix_and_settings"
@@ -206,11 +206,14 @@ function newMatrix() {
         for (let j = 1; j <= matrix_rows; j++) {
             matrix_input = document.createElement("input")
 
-
-            if (i == j) {
-                matrix_input.defaultValue = "1"
+            if (default_inputs.length == 0) {
+                if (i == j) {
+                    matrix_input.defaultValue = "1"
+                } else {
+                    matrix_input.defaultValue = "0"
+                }
             } else {
-                matrix_input.defaultValue = "0"
+                matrix_input.defaultValue = default_inputs[(i - 1) + 2*(j - 1)]
             }
 
             matrix_input.style.gridRow = i
