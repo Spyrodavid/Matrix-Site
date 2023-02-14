@@ -17,7 +17,7 @@
     <main>
     <div class="container">
         <h1>Matrix Multiplication Visualization</h1>
-        <h7>Click on the input graph to place a point</h7>
+        <h7>Click on the graph graph to place a point</h7>
         <div id="controlls">
             <div>
                 <button onclick="clearPoints()">Clear Points</button>
@@ -31,21 +31,11 @@
         </div>
         <div class="grid">
             <div id="input_section">
-                <div class="input_output_label">Input</div>
                 <canvas id="input_canvas"></canvas>
-            </div>
-
-            <div id="output_section">
-                <div class="input_output_label">Output</div>
-                <canvas id="output_canvas"></canvas>
             </div>
         </div>
         <div>
-            <div id="validity">All Matrices Valid!</div>
-            <!-- <div>Hint: th = time elapsed, so try cos(th)</div> -->
-            <button onclick="newMatrix([])">New Identity Matrix</button>
-            <!-- <button onclick="newMatrix(['cos(th)','-sin(th)','sin(th)','cos(th)'])">
-                New Rotation Matrix</button> -->
+            <div id="validity">Matrix is Valid!</div>
         </div>
         
         <div id="matrix_section"></div>
