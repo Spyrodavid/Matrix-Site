@@ -6,6 +6,8 @@ const matrix_section = document.getElementById("matrix_section");
 
 const validity = document.getElementById("validity");
 
+
+canvas.width = parseInt(canvas.width * 1.5)
 canvas.height = parseInt(canvas.width * .7)
 
 // get dimension of canvas
@@ -250,7 +252,9 @@ function addSmiley() {
             [-20, -35]
         )
     ]
-    output_points = [...input_points]
+    input_points = input_points.map((point) => {
+        return math.multiply(point, 1.5)
+    })
 }
 
 function addHouse() {
@@ -298,5 +302,7 @@ function addHouse() {
             [56, 0]
         )
     ]
-    output_points = [...input_points]
+    input_points = input_points.map((point) => {
+        return math.multiply(point, 1.5)
+    })
 }
