@@ -13,24 +13,6 @@ input_canvas.height = parseInt(input_canvas.width * .7)
 output_canvas.height = parseInt(output_canvas.width * .7)
 
 
-
-// // set css size of canvas
-// input_canvas.style.width ='100%';
-// input_canvas.style.height='100%';
-
-// // then take css size and change canvas size to match
-// input_canvas.width  = input_canvas.offsetWidth;
-// input_canvas.height = input_canvas.offsetHeight;
-
-// // set css size of canvas
-// output_canvas.style.width ='100%';
-// output_canvas.style.height='100%';
-
-// // then take css size and change canvas size to match
-// output_canvas.width  = output_canvas.offsetWidth;
-// output_canvas.height = output_canvas.offsetHeight;
-
-
 // get dimension of each canvas
 out_width = output_canvas.width
 out_height = output_canvas.height
@@ -46,12 +28,14 @@ output_ctx.scale(1, -1)
 
 
 input_points = []
+output_points = []
 input_points_radius = 5
 
 input_canvas.addEventListener("click", (e) => {
     input_points.push(math.matrix([
         e.offsetX - in_width / 2, -(e.offsetY - in_height / 2)
     ]))
+    output_points = [...input_points]
 });
 
 var program_start = Date.now()
@@ -89,44 +73,69 @@ function MainLoop() {
     output_ctx.stroke();
 
 
+    validity.innerHTML = "All Matrices Valid!"
+    validity.style.color = "black"
+    //matrix_settings_node.getElementsByClassName("matrix_apply_button")[0].disabled = false
+
     matrices_to_multiply = []
 
-    matrix_nodes = matrix_section.children
+    matrix_nodes = matrix_section.getElementsByClassName("matrix")
     for (let i = 0; i < matrix_nodes.length; i++) {
-        const matrix_settings_node = matrix_nodes[i];
-        var matrix_node = matrix_settings_node.children[0]
+        var matrix_node = matrix_nodes[i]
+        matrix_inputs = matrix_node.children
 
-        if (matrix_node.tagName != "DIV") {
-            break
+        var is_valid_flag = true
+        var is_live_matrix_flag = true
+        var is_number_flag = true
+
+
+        matrix_values = Array.from(matrix_inputs).map((el) => {return el.value})
+
+        // check is live matrix
+        if (!matrix_values.some((el) => 
+                            {return el.includes("th")})) 
+        {
+            is_live_matrix_flag = false
         }
-
-        var matrix_inputs = matrix_node.children
-
-        is_numbers_flag = true
 
 
         // replace time elapsed
-        theta = (Date.now() - program_start) / 1000
-        matrix_values = Array.from(matrix_inputs).map((el) => 
-                            {return el.value.replaceAll("th", String(theta))})
+        if (is_live_matrix_flag) {
+            theta = (Date.now() - program_start) / 1000
+            matrix_values = matrix_values.map((el) => 
+                                {return el.replaceAll("th", "(" + String(theta) + ")")})
+        }
 
         // make sure expression is fully formed
         try {
-            matrix_values = Array.from(matrix_values).map((el) => 
-                            {return el.value === "" ? 0 : math.evaluate(el)})
-        } catch {
-            is_numbers_flag = false
+            var matrix_values = matrix_values.map((el) => 
+                            {return el === "" ? 0 : math.evaluate(el)})
+            is_valid_flag = true
+        } catch (err) {
+            is_valid_flag = false
         }
 
         // make sure expression evaluates to number
-        for (const value of matrix_values) { 
-            if (isNaN(Number(value))) {
-                is_numbers_flag = false
-                break
+        if (is_valid_flag) {
+            
+            for (const value of matrix_values) { 
+                
+                if (isNaN(Number(value))) {
+                    is_number_flag = false
+                }
             }
         }
 
-        if (is_numbers_flag) {
+
+        if (!(is_valid_flag && is_number_flag)) {
+            validity.innerHTML = "Invalid Value in a Matrix!"
+            validity.style.color = "red"
+            //matrix_settings_node.getElementsByClassName("matrix_apply_button")[0].disabled = true
+            break
+        }
+
+        // allready exited if invalid matrix
+        if (is_live_matrix_flag) {
             new_matrix = math.matrix([
                 [
                     matrix_values[0],
@@ -138,21 +147,12 @@ function MainLoop() {
                 ]
             ])
             matrices_to_multiply.push(new_matrix)
-            validity.innerHTML = "All Matrices Valid!"
-            validity.style.color = "black"
-        } else {
-            validity.innerHTML = "Invalid Value in a Matrix!"
-            validity.style.color = "red"
         }
-        
-
-
-
     }
 
     // input draw
-    for (let index = 0; index < input_points.length; index++) {
-        const current_point = input_points[index];
+    for (let point_index = 0; point_index < input_points.length; point_index++) {
+        const current_point = input_points[point_index];
 
         // draw point
         input_ctx.strokeStyle = `black`
@@ -163,8 +163,8 @@ function MainLoop() {
     }
 
     // output draw
-    for (let point_index = 0; point_index < input_points.length; point_index++) {
-        var current_point = input_points[point_index];
+    for (let point_index = 0; point_index < output_points.length; point_index++) {
+        var current_point = output_points[point_index];
 
         // go through each matrix
         for (let matrix_index = 0; matrix_index < matrices_to_multiply.length; matrix_index++) {
@@ -172,7 +172,6 @@ function MainLoop() {
 
             current_point = math.multiply(current_point, current_matrix)
         }
-
 
         // draw point
         output_ctx.strokeStyle = `black`
@@ -191,11 +190,11 @@ requestAnimationFrame(MainLoop)
 
 
 function newMatrix(default_inputs) {
-    matrix = document.createElement("div")
+    var matrix = document.createElement("div")
     var matrix_and_settings = document.createElement("div")
-    matrix_and_settings.id = "matrix_and_settings"
+    matrix_and_settings.classList.add("matrix_and_settings")
     matrix_and_settings.appendChild(matrix)
-    matrix.id = "matrix"
+    matrix.classList.add("matrix")
     matrix.classList.add("grid")
 
     matrix_section.appendChild(matrix_and_settings)
@@ -225,15 +224,92 @@ function newMatrix(default_inputs) {
         }
     }
 
+    var matrix_buttons = document.createElement("div")
+    matrix_buttons.classList.add("matrix_buttons")
+    matrix_and_settings.appendChild(matrix_buttons)
+
+    
     matrix_delete_button = document.createElement("button")
     matrix_delete_button.innerHTML = "❌"
-    matrix_delete_button.id = "matrix_delete_button"
+    matrix_delete_button.classList.add("matrix_delete_button", "matrix_button")
     matrix_delete_button.addEventListener("click", () => {
         matrix_and_settings.remove()
     })
-    matrix_and_settings.appendChild(matrix_delete_button)
+    matrix_buttons.appendChild(matrix_delete_button)
 
 
+    matrix_apply_button = document.createElement("button")
+    matrix_apply_button.innerHTML = "Apply Matrix"
+    matrix_apply_button.classList.add("matrix_apply_button", "matrix_button")
+    matrix_apply_button.addEventListener("click", () => {
+        matrix_apply(matrix)
+    })
+    matrix_buttons.appendChild(matrix_apply_button)
+
+}
+
+function matrix_apply(matrix_node) {
+        matrix_inputs = matrix_node.children
+
+        var is_valid_flag = true
+        var is_live_matrix_flag = true
+        var is_number_flag = true
+
+        // check is live matrix
+        if (!Array.from(matrix_inputs).some((el) => 
+                            {return el.value.includes("th")})) 
+        {
+            is_live_matrix_flag = false
+        }
+
+        matrix_values = Array.from(matrix_inputs)
+
+        // replace time elapsed
+        if (is_live_matrix_flag) {
+            theta = (Date.now() - program_start) / 1000
+            matrix_values = matrix_inputs.map((el) => 
+                                {return el.value.replaceAll("th", "(" + String(theta) + ")")})
+        }
+
+        // make sure expression is fully formed
+        try {
+            var matrix_values = matrix_values.map((el) => 
+                            {return el.value === "" ? 0 : math.evaluate(el.value)})
+            is_valid_flag = true
+        } catch (err) {
+            is_valid_flag = false
+        }
+
+        // make sure expression evaluates to number
+        if (is_valid_flag) {
+            
+            for (const value of matrix_values) { 
+                
+                if (isNaN(Number(value))) {
+                    is_number_flag = false
+                }
+            }
+        }
+
+        if (!(is_valid_flag && is_number_flag)) {
+            validity.innerHTML = "Invalid Value in a Matrix!"
+            validity.style.color = "red"
+            //matrix_settings_node.getElementsByClassName("matrix_apply_button")[0].disabled = true
+            return
+        }
+
+        // allready exited if invalid matrix
+        var new_matrix = math.matrix([
+            [
+                matrix_values[0],
+                matrix_values[1]
+            ],
+            [
+                matrix_values[2],
+                matrix_values[3]
+            ]
+        ])
+        output_points = output_points.map((point) => {return math.multiply(point, new_matrix)})
 }
 
 function clearPoints() {
@@ -267,6 +343,7 @@ function addSmiley() {
             [-20, -35]
         )
     ]
+    output_points = [...input_points]
 }
 
 function addHouse() {
@@ -314,4 +391,5 @@ function addHouse() {
             [56, 0]
         )
     ]
+    output_points = [...input_points]
 }

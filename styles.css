@@ -46,7 +46,8 @@ body {
   text-align: center;
 }
 
-#matrix {
+.matrix {
+  display: inline-grid;
   grid-template-columns: 80px 80px;
   grid-template-rows: 50px 50px;
 
@@ -56,7 +57,7 @@ body {
   position: relative;
 }
 
-#matrix::before,#matrix::after {
+.matrix::before,.matrix::after {
   position: absolute;
   width: 140px;
   height: 104px;
@@ -67,16 +68,16 @@ body {
 
   
 }
-#matrix::before {
+.matrix::before {
   border-top: 2px solid white;
 }
 
-#matrix::after {
+.matrix::after {
   border-bottom: 2px solid white;
 }
 
 #matrix_section {
-  display: inline-block;
+  display: block;
 }
 
 input:focus {
@@ -100,6 +101,29 @@ button {
   border:2px inset lightgrey;
 }
 
-#matrix_and_settings {
+.matrix_and_settings {
+  display: block;
+  position: relative;
+}
+
+
+
+.matrix_button {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.matrix_delete_button {
+  margin-left: 10px;
+}
+
+.matrix_apply_button {
+  margin-left: 60px;
+}
+
+.matrix_buttons {
   display: inline;
 }
